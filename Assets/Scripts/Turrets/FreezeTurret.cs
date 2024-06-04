@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
@@ -8,13 +9,72 @@ public class FreezeTurret : MonoBehaviour, ITurret
     [SerializeField] private Transform m_shootSpawnPoint;
     [SerializeField] private float m_fireRate = 1f;
     [SerializeField] private float m_range = 20f;
+    [SerializeField] private float changeRate = 2f, changeRange = 25f;
+
+    private float normalFireRate, normalRange;
     private float m_timer = 0f;
     private bool m_canFire = true;
     private Transform m_target;
     public bool IsPlaced { get; set; }
+    public int cost { get; set; } = 10;
+    public int slot { get; set; }
+
+
+    private void Start()
+    {
+        normalFireRate = m_fireRate;
+        normalRange = m_range;
+    }
+
     private void Update()
     {
-        if(!IsPlaced)
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity,
+                LayerMask.GetMask("PlaceableArea")))
+        {
+            if (hit.collider.TryGetComponent(out PlaceableArea placeableArea))
+            {
+                if (placeableArea.TurretOnMe == 0)
+                {
+                    IsPlaced = true;
+                }
+                else
+                {
+                    IsPlaced = false;
+                }
+            }
+        }
+        
+        bool powerUpNear = false;
+        int powerUpType = 0;
+        Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(1,2,1), Quaternion.identity);
+        foreach (var collider in colliders)
+        {
+            if (collider.TryGetComponent(out IPowerUp powerUp))
+            {
+                powerUpNear = true;
+                powerUpType = powerUp.ReturnPowerUp();
+            }
+        }
+        
+        if(powerUpNear)
+        {
+            if (powerUpType == 0)
+            {
+                m_range = changeRange;
+            }
+            else
+            {
+                m_fireRate = changeRate;
+            }
+        }
+        else
+        {
+            m_fireRate = normalFireRate;
+            m_range = normalRange;
+        }
+        
+
+        if (!IsPlaced)
             return;
         CheckTarget();
         if (m_canFire)
@@ -80,7 +140,7 @@ public class FreezeTurret : MonoBehaviour, ITurret
             m_target = null;
         }
     }
-    
+
     public int ReturnTurret()
     {
         return 1;

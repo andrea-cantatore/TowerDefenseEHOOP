@@ -1,6 +1,8 @@
 public interface ITurret
 {
     public bool IsPlaced { get; set; }
+    public int cost { get; set; }
+    public int slot { get; set; }
     
     public void Fire();
     public void CheckTarget();

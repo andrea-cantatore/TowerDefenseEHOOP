@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RocketTurret : MonoBehaviour, ITurret
@@ -5,10 +6,24 @@ public class RocketTurret : MonoBehaviour, ITurret
     [SerializeField] private Transform m_rocketSpawnPoint;
     [SerializeField] private float m_fireRate = 1f;
     [SerializeField] private float m_range = 10f;
+    [SerializeField] private float changeRate = 2f, changeRange = 20f;
+    
+    private float normalFireRate, normalRange;
     private float m_timer = 0f;
     private bool m_canFire = true;
     private Transform m_target;
     public bool IsPlaced { get; set; }
+    public int cost { get; set; } = 25;
+    
+    public int slot { get; set; }
+
+
+    private void Start()
+    {
+        normalFireRate = m_fireRate;
+        normalRange = m_range;
+    }
+    
     private void Update()
     {
         if(!IsPlaced)
@@ -25,6 +40,35 @@ public class RocketTurret : MonoBehaviour, ITurret
             Vector3 rotation = transform.rotation.eulerAngles;
             rotation.z = originalZRotation;
             transform.rotation = Quaternion.Euler(rotation);
+        }
+        
+        bool powerUpNear = false;
+        int powerUpType = 0;
+        Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(1,2,1), Quaternion.identity);
+        foreach (var collider in colliders)
+        {
+            if (collider.TryGetComponent(out IPowerUp powerUp))
+            {
+                powerUpNear = true;
+                powerUpType = powerUp.ReturnPowerUp();
+            }
+        }
+        
+        if(powerUpNear)
+        {
+            if (powerUpType == 0)
+            {
+                m_range = changeRange;
+            }
+            else
+            {
+                m_fireRate = changeRate;
+            }
+        }
+        else
+        {
+            m_fireRate = normalFireRate;
+            m_range = normalRange;
         }
     }
 

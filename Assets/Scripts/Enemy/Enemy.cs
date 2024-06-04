@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour, IEnemy
     [SerializeField] private float m_slowFactor = 1.5f;
     [SerializeField] private int m_coreDmg = 1;
     [SerializeField] private Vector3 m_originalPosition;
+    [SerializeField] private int _coinValue = 5;
     
     private void Update()
     {
@@ -52,6 +53,7 @@ public class Enemy : MonoBehaviour, IEnemy
     public void Die()
     {
         EventManager.OnEnemyDeath?.Invoke();
+        EventManager.ChangeCoins?.Invoke(_coinValue);
         transform.position = m_originalPosition;
         gameObject.SetActive(false);
     }

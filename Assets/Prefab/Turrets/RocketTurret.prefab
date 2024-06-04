@@ -187,8 +187,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_rocketSpawnPoint: {fileID: 1499593074173886962}
-  m_fireRate: 100
+  m_fireRate: 2.5
   m_range: 10
+  changeRate: 2
+  changeRange: 20
 --- !u!65 &3102261849354424622
 BoxCollider:
   m_ObjectHideFlags: 0

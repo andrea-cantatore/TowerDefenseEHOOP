@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class Core : MonoBehaviour, ICore
@@ -7,6 +8,7 @@ public class Core : MonoBehaviour, ICore
     [SerializeField] private float m_regenRate = 3f;
     [SerializeField] private float m_regenDelay = 5f; //Longer delay if u take dmg
     [SerializeField] private int m_regenAmount = 1;
+    [SerializeField] private TMP_Text m_hpText;
     private float m_timer = 0f;
     private float m_delayTimer = 0f;
 
@@ -16,6 +18,7 @@ public class Core : MonoBehaviour, ICore
         {
             Regen();
         }
+        m_hpText.text = m_hp.ToString();
     }
 
     public void TakeDamage(int damage)

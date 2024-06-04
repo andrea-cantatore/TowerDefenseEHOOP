@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,11 +17,12 @@ public class EnemySpawner : MonoBehaviour
     private float m_waveDelay = 40f;
     private int m_remainingEnemies;
     private Vector3 m_originalSpawnPosition;
+    private float m_firstSpawnDelay = 7f;
+    private bool m_isFirstWave = true;
 
     private void Start()
     {
         m_originalSpawnPosition = transform.position;
-        WaveStarter();
         m_remainingEnemies = m_waveSize;
     }
 
@@ -37,6 +39,17 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if(m_isFirstWave)
+        {
+            m_timer += Time.deltaTime;
+            if (m_timer >= m_firstSpawnDelay)
+            {
+                m_isFirstWave = false;
+                m_timer = 0f;
+                WaveStarter();
+            }
+            return;
+        }
         if (m_timer >= m_waveDelay || m_remainingEnemies == 0)
         {
             m_waveSize += m_waveIncrementation;

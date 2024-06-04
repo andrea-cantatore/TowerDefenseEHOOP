@@ -165,8 +165,10 @@ MonoBehaviour:
   - {fileID: 2836696925774197582}
   - {fileID: 1434267637340878854}
   - {fileID: 811440266629104272}
-  m_fireRate: 100
-  m_range: 10
+  m_fireRate: 1
+  m_range: 15
+  changeRate: 0.5
+  changeRange: 25
 --- !u!65 &7186305099282390097
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -50,7 +50,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_shootSpawnPoint: {fileID: 3060978262888847952}
   m_fireRate: 2
-  m_range: 7
+  m_range: 20
+  changeRate: 1
+  changeRange: 25
 --- !u!65 &7038193231289392746
 BoxCollider:
   m_ObjectHideFlags: 0

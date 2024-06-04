@@ -10,6 +10,7 @@ public class RocketProjectile : MonoBehaviour, IBullet
     [SerializeField] private Rigidbody m_rb;
     [SerializeField] private float m_launchAngle = 45f;
     [SerializeField] private float m_explosionRadius = 5f;
+    [SerializeField] private int dmg = 3;
     public Vector3 Target;
     
     
@@ -30,7 +31,7 @@ public class RocketProjectile : MonoBehaviour, IBullet
             {
                 if (collider.TryGetComponent(out IEnemy enemy))
                 {
-                    enemy.TakeDamage(5);
+                    enemy.TakeDamage(dmg);
                 }
             }
             gameObject.SetActive(false);

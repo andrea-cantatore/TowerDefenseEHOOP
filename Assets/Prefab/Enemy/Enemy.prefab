@@ -71,10 +71,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MovementPrediction>k__BackingField: {fileID: 6294525165343611123}
-  m_hp: 10
+  m_hp: 15
   m_slowDuration: 2
-  m_slowFactor: 1.5
+  m_slowFactor: 2
   m_coreDmg: 1
+  m_originalPosition: {x: 0, y: 0, z: 0}
+  _coinValue: 5
 --- !u!136 &8992119353273858320
 CapsuleCollider:
   m_ObjectHideFlags: 0
